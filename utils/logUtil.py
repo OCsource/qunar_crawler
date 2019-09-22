@@ -14,7 +14,7 @@ def getLogger(type=0):
     console_handler.setLevel(logging.ERROR)
 
     # 创建第二个handler用于日记记录
-    file_handler = logging.FileHandler('D:/Python3.6-32/python0_1/qunar/logs/DB_log.log') if type == 0 else logging.FileHandler('D:/Python3.6-32/python0_1/qunar/logs/data_log.log')
+    file_handler = logging.FileHandler('D:/Python3.6-32/python0_1/qunar_crawler/logs/DB_log.log') if type == 0 else logging.FileHandler('D:/Python3.6-32/python0_1/qunar_crawler/logs/data_log.log')
     file_handler.setLevel(logging.ERROR)
 
     # 自定义handler日记输出格式
