@@ -1,4 +1,4 @@
-import requests,random,time,sys
+import requests,random,time
 from bs4 import BeautifulSoup
 from python0_1.qunar_crawler.strategy import strategyContent
 from python0_1.qunar_crawler.saveToDB import DB

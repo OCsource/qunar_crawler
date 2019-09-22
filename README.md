@@ -72,3 +72,17 @@ python0_1 ----- qunar_crawler ----- main.py
                               ----- hotel ----- 
                       
                               ----- cate ----- 
+                              
+ -----
+ 
+ -----
+ **依赖包**
+ -----
+ 
+ xpinyin：汉字转拼音
+ 
+ bs4.BeautifulSoup：将页面转为dom树
+ 
+ pymysql：python连接数据库
+ 
+ 

@@ -1,5 +1,5 @@
 import requests,random
-from concurrent.futures import ThreadPoolExecutor,as_completed,wait,ALL_COMPLETED
+from concurrent.futures import ThreadPoolExecutor,wait,ALL_COMPLETED
 from bs4 import BeautifulSoup
 from python0_1.qunar_crawler.scenery import qunarComment
 from python0_1.qunar_crawler.saveToDB import DB
