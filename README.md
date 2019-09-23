@@ -17,6 +17,8 @@ sql：存放数据库的结构
 
 city：爬取城市信息
 
+util：存放工具
+
 scenery：爬取景点信息（有一个单线程版qunarScenery.py(默认)，一个多线程版mulQunarScenery.py）
 
 strategy：爬取景点攻略
@@ -30,7 +32,7 @@ cate：爬取美食
 ****技术栈****
 -----
 
-python基础：建议看官方文档或者上菜鸟将python过一遍
+python基础（python3.6-x86）：建议看官方文档或者上菜鸟将python过一遍
 
 python多线程：https://blog.csdn.net/u012206617/article/details/85321781
 
