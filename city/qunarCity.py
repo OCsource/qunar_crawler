@@ -7,6 +7,8 @@ from python0_1.qunar_crawler.utils import logUtil
 from python0_1.qunar_crawler.scenery import qunarScenery    # 单线程版本
 from python0_1.qunar_crawler.scenery import mulQunarScenery # 多线程版本
 from python0_1.qunar_crawler.strategy import qunarStrategy
+from python0_1.qunar_crawler.cate import qunarCate
+from concurrent.futures import ThreadPoolExecutor,wait,ALL_COMPLETED
 
 # 得到中国所有景点信息
 # 参数：去哪了游玩景点url
@@ -46,11 +48,15 @@ def getScenery(city_name):
         logUtil.getLogger(1).error(city_name + ':没有该旅游城市信息')
     else:
         cityPinYin = "".join(Pinyin().get_pinyin(city_name).split('-'))
-        # 景点网页拼接
-        scnery_website = 'https://travel.qunar.com/p-cs' + city_number + "-" + cityPinYin + '-jingdian'
-        qunarScenery.getScenery(scnery_website, city_id)      # 单线程版本
-        # mulQunarScenery.getScenery(scnery_website, city_id)   # 多线程版本
-
-        # 攻略网页拼接
+        pools = ThreadPoolExecutor(3)
+        all_pools = []
+        # 景点网页拼接，攻略网页拼接，美食区
+        scnery_website = 'https://travel.qunar.com/p-cs' + city_number + '-' + cityPinYin + '-jingdian'
         strategy_website = 'https://travel.qunar.com/travelbook/list/22-' + cityPinYin + '-' + str(city_number) + '/hot_heat/1.htm'
-        qunarStrategy.getStrategy(strategy_website, city_name)
+        cate_website = 'https://travel.qunar.com/p-cs' + str(city_number) + '-' + cityPinYin + '-meishi?page=1'
+
+        all_pools.append(pools.submit(qunarScenery.getScenery, ((scnery_website, city_id))))
+        all_pools.append(pools.submit(qunarStrategy.getStrategy, ((strategy_website, city_name))))
+        all_pools.append(pools.submit(qunarCate.getCate, ((cate_website, city_id))))
+
+        wait(all_pools, return_when=ALL_COMPLETED)

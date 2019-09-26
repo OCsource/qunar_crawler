@@ -252,3 +252,74 @@ class operateDB():
             return False
         finally:
             db.close()
+
+# 美食区
+    # 统计一爬取的美食数量
+    # 参数：城市编号
+    # 返回：成功一个美食数量，失败false
+    def countCate(self,city_number):
+        db = pymysql.connect(self.__host, self.__user, self.__password, self.__dbName, charset=self.__char)
+        cs = db.cursor()
+        sql = "SELECT COUNT(*) FROM cate_information WHERE city_number = '%d';" % (city_number)
+        try:
+            cs.execute(sql)
+            result = cs.fetchall()[0][0]
+            return result
+        except:
+            db.rollback()
+            self.logger.error('数据库出错！')
+            return False
+        finally:
+            db.close()
+
+    # 插入美食信息
+    # 参数：城市编号，美食名称，美食编号，用户评分，排名，大约支付金额，地址，推荐菜式
+    def insertCate(self, city_number, cate_name,cate_number, star, rank,pay, address, recommendation):
+        db = pymysql.connect(self.__host, self.__user, self.__password, self.__dbName, charset=self.__char)
+        cs = db.cursor()
+        sql = "INSERT INTO cate_information(city_number, cate_name,cate_number, star, rank,pay, address, recommendation) " \
+              "VALUES('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" \
+              % (city_number, cate_name,cate_number, star, rank,pay, address, recommendation)
+        try:
+            cs.execute(sql)
+            db.commit()
+        except:
+            db.rollback()
+            self.logger.error(cate_name + ":美食插入失败,sql语句：" + sql)
+        finally:
+            db.close()
+
+    # 美食评论插入
+    # 参数：美食编号，用户名，用户评分，标题，评论
+    def insertConCate(self,cate_number, username,star, title, comment):
+        db = pymysql.connect(self.__host, self.__user, self.__password, self.__dbName, charset=self.__char)
+        cs = db.cursor()
+        sql = "INSERT INTO cate_comment(cate_number, username,star, title, comment) " \
+              "VALUES('%s', '%s', '%s', '%s', '%s');" \
+              % (cate_number, username,star, title, comment)
+        try:
+            cs.execute(sql)
+            db.commit()
+        except:
+            db.rollback()
+            self.logger.error("该语句:" + sql + "的评论插入失败")
+        finally:
+            db.close()
+
+    # 查询某美食是否存在
+    # 参数：美食编号
+    # 返回：成功返回一个数字，0代表没有，1代表一个。。。失败false
+    def findCate(self,cate_number):
+        db = pymysql.connect(self.__host, self.__user, self.__password, self.__dbName, charset=self.__char)
+        cs = db.cursor()
+        sql = "SELECT COUNT(*) FROM cate_information WHERE cate_number = '%s';" % (cate_number)
+        try:
+            cs.execute(sql)
+            result = cs.fetchall()[0][0]
+            return result
+        except:
+            db.rollback()
+            self.logger.error("数据库出错了")
+            return False
+        finally:
+            db.close()

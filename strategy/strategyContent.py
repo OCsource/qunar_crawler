@@ -78,8 +78,3 @@ def getSceneryOnly(url,strategy_number):
             operate.insertSScenery(strategy_number, scenery_name)
     except:
         print("攻略编码" + strategy_number + "估计爬太多了，要求验证了,跳过\t" + time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-
-# if __name__ == '__main__':
-    #     url = 'https://travel.qunar.com/youji/7070721'
-#     num = '7070721'
-#     get_Comment(url, num)

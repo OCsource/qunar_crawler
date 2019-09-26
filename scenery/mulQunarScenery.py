@@ -3,39 +3,23 @@ from concurrent.futures import ThreadPoolExecutor,wait,ALL_COMPLETED
 from bs4 import BeautifulSoup
 from python0_1.qunar_crawler.scenery import qunarComment
 from python0_1.qunar_crawler.saveToDB import DB
-from python0_1.qunar_crawler.common import headMsg
+from python0_1.qunar_crawler.common import headMsg,allMaxPage
 from python0_1.qunar_crawler.utils import logUtil
 
 User_Agent = headMsg.UA
 logger = logUtil.getLogger(1)
 
-# 获取最大页面数
-# 参数：该城市的景点首页url
-# 返回：最大页数
-def getMaxPage(url):
-    Hostreferer = {
-        'User-Agent': random.choice(User_Agent),
-        'Referer': 'https://www.qunar.com'
-    }
-    try:
-        html = requests.get(url=url,headers=Hostreferer,timeout=5).text
-        soup = BeautifulSoup(html, "html.parser")
-        maxPage = soup.find('div', class_='b_paging').find_all('a', class_='page')
-        maxPage = maxPage[-2].string if maxPage else None
-        return maxPage
-    except:
-        logger.error("最大页数获取" + url + "失败")
-
 # 获取景点页面
 # 参数：城市景点的url
-def getScenery(url, city_number):
+def getScenery(tup):
+    url, city_number = tup[0], tup[1]
     operate = DB.operateDB()
     Hostreferer = {
         'User-Agent': random.choice(User_Agent),
         'Referer': 'https://www.qunar.com'
     }
     startNum = int(operate.countScenery(city_number) / 10) if int(operate.countScenery(city_number) / 10) != 0 else 1
-    maxPage = getMaxPage(url)
+    maxPage = int(allMaxPage.getMaxPage(url))
     print("以跳过" + str(startNum - 1) + "页,现在从第" + str(startNum) + "页开始")
     if maxPage:
         # 遍历景点所有页面

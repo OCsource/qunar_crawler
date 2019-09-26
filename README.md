@@ -71,11 +71,13 @@ python0_1 ----- qunar_crawler ----- main.py
                       
                                              ----- strategyContent.py
                       
+                              ----- cate ----- quanrCate.py
+                              
+                                         ---- qunarCateComment.py
+                      
                               ----- hotel ----- 
                       
-                              ----- cate ----- 
                               
- -----
  
  -----
  **依赖包**
